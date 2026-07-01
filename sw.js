@@ -1,7 +1,8 @@
-const CACHE_NAME = 'oanse-cordeiroigreja-v6-logo';
+const CACHE_NAME = 'oanse-cordeiroigreja-v6-githubpages-ok';
 const ASSETS = [
   './',
-  './Concurso_Biblico_Oanse_CordeiroIgreja_v6_mobile_pwa.html',
+  './index.html',
+  './404.html',
   './manifest.webmanifest',
   './logo-igreja.png',
   './icons/icon-192.png',
@@ -15,9 +16,11 @@ self.addEventListener('activate', event => {
 });
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
-  event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request).then(response => {
-    const copy = response.clone();
-    caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
-    return response;
-  }).catch(() => caches.match('./Concurso_Biblico_Oanse_CordeiroIgreja_v6_mobile_pwa.html'))));
+  event.respondWith(
+    caches.match(event.request).then(cached => cached || fetch(event.request).then(response => {
+      const copy = response.clone();
+      caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+      return response;
+    }).catch(() => caches.match('./index.html')))
+  );
 });
