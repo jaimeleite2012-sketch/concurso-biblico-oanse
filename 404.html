@@ -10,7 +10,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-<title>Concurso Bíblico Oanse CordeiroIgreja · V9 Mobile Corrigido</title>
+<title>Concurso Bíblico Oanse CordeiroIgreja · V10 Mobile Corrigido</title>
 <style>
 :root {
   --bg:#020617; --panel:#052e2b; --panel2:#063b35; --panel3:#0f172a;
@@ -121,6 +121,16 @@ button{font-family:inherit}
   #questionCard{border-radius:34px;background:#0d2038;border:1px solid rgba(148,163,184,.22);box-shadow:none;min-height:calc(100svh - 190px);display:flex;}
   #questionCard .card-head{display:none!important}
   #questionCard .card-body{padding:18px 16px 20px;width:100%;display:flex;flex-direction:column;justify-content:center;}
+  .inline-timer{margin:6px 0 12px;padding:8px 10px;border-radius:14px}
+  .inline-timer b{font-size:1.45rem}
+  .inline-timer .mini-start{font-size:.75rem;padding:7px 9px}
+  #options{order:4;display:grid}
+  #questionCard>.card-body>.actions{order:5!important}
+  #refBox{order:6}
+  #answer{order:7}
+  .leader-control{order:8}
+  .next-actions{order:9!important}
+
   #meta,.mode-banner{display:none!important}
   .question{text-align:center;font-size:clamp(1.55rem,6vw,2.3rem);line-height:1.15;margin:4px auto 16px;max-width:92%;font-weight:1000;}
   .options{grid-template-columns:1fr!important;gap:11px;margin-top:8px;}
@@ -241,7 +251,7 @@ button,.btn,.tab-btn,.option,select,input{font-size:16px}
 </header>
 <div class="pwa-strip" id="pwaStrip">
   <div>
-    <b>V9 Mobile Corrigido</b><br>
+    <b>V10 Mobile Corrigido</b><br>
     <span>Otimizado para Android e iPhone: instalar na tela inicial, jogar em tela cheia e compartilhar pelo WhatsApp.</span>
     <div id="installTip" class="install-tip"></div>
   </div>
@@ -282,15 +292,19 @@ button,.btn,.tab-btn,.option,select,input{font-size:16px}
       <div class="card-head"><span>Pergunta da rodada</span><span id="modeBannerTop" class="small">Modo oral</span></div>
       <div class="card-body">
         <div id="meta" class="meta"></div>
+        <div class="inline-timer" id="inlineTimerBox">
+          <div class="timer-left"><span>⏱ Cronômetro</span><b id="inlineTimer">00s</b></div>
+          <button class="btn warn mini-start" type="button" onclick="startTimer()">▶ Iniciar</button>
+        </div>
         <div id="question" class="question"></div>
         <div id="modeBanner" class="mode-banner"></div>
+        <div id="options" class="options"></div>
         <div class="actions">
           <button class="btn blue" id="toggleBtn" onclick="toggleMultipleChoice()">Transformar em múltipla escolha difícil</button>
           <button class="btn secondary" onclick="toggleReference()" id="refBtn">Mostrar referência bíblica</button>
           <button class="btn secondary" onclick="showAnswer()">Mostrar resposta</button>
         </div>
         <div id="refBox" class="ref-box"></div>
-        <div id="options" class="options"></div>
         <div id="answer" class="answer"></div>
         <details class="leader-control">
           <summary>Controle do líder / pontuação</summary>
@@ -587,7 +601,7 @@ function renderQuestion(){
   } else { options.style.display='none'; currentMCOptions=null; }
   if(settings.autoTimer==='sim') setTimeout(startTimer, 250);
 }
-function toggleMultipleChoice(){ mcMode=!mcMode; answered=false; renderQuestion(); updateStats(); }
+function toggleMultipleChoice(){ mcMode=!mcMode; answered=false; renderQuestion(); updateStats(); if(mcMode && byId('options')) setTimeout(()=>byId('options').scrollIntoView({behavior:'smooth',block:'nearest'}),120); }
 function toggleReference(){
   const q=current(); if(!q) return;
   refVisible=!refVisible; const refBox=byId('refBox');
@@ -631,9 +645,11 @@ function syncCompactHud(){
 
 function updateTimerView(){
   byId('timer').textContent = String(Math.max(0,timerSeconds)).padStart(2,'0');
+  if(byId('inlineTimer')) byId('inlineTimer').textContent = Math.max(0,timerSeconds) + 's';
   const pct = timerTotal ? Math.max(0, timerSeconds/timerTotal*100) : 0;
   byId('progressBar').style.width = pct + '%';
   byId('timer').classList.toggle('danger', timerSeconds<=10 && timerSeconds>0);
+  if(byId('inlineTimerBox')) byId('inlineTimerBox').classList.toggle('danger', timerSeconds<=10 && timerSeconds>0);
   syncCompactHud();
   updateSuspenseIntensity();
   if(settings.finalAlert==='sim' && timerSeconds>0 && timerSeconds<=10 && timerSeconds!==lastBeepSecond){
