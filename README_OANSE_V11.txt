@@ -7,3 +7,4 @@ Fases: 23 de até 30 perguntas.
 Aprovação: 60% = 18 acertos nas fases de 30 perguntas.
 Categorias estruturadas como: Clube · Manual · Modalidade.
 Manuais: Faísca/Saltador/Caminhante/Escalador, Flama/Sabiá/Águia, Tocha/Carneiro/Leão.
+Atualização forçada para republicar GitHub Pages.
