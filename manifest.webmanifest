@@ -1,0 +1,18 @@
+{
+  "name": "Concurso Bíblico Oanse Cordeiro",
+  "short_name": "OANSE Cordeiro",
+  "description": "Jogo bíblico OANSE por fases, ranking, recompensas e progresso.",
+  "start_url": "./?v=29",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#06101f",
+  "theme_color": "#06101f",
+  "icons": [
+    {
+      "src": "icon.png?v=29",
+      "sizes": "150x150",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

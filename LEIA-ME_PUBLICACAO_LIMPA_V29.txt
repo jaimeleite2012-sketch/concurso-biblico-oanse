@@ -1,0 +1,33 @@
+ATUALIZAÇÃO LIMPA V29 — CONCURSO BÍBLICO OANSE CORDEIRO
+
+OBJETIVO
+Substituir completamente os arquivos antigos do GitHub por uma estrutura limpa, contendo apenas os arquivos necessários para o jogo.
+
+ARQUIVOS QUE DEVEM FICAR NA RAIZ DO REPOSITÓRIO
+1. index.html
+2. 404.html
+3. manifest.webmanifest
+4. logo.png
+5. icon.png
+6. share-card-v29.png
+
+O QUE FOI CONSOLIDADO
+- Capa correta para WhatsApp: share-card-v29.png.
+- Logo correto no topo do jogo: logo.png.
+- Ícone correto do app/atalho: icon.png.
+- Tela inicial simplificada.
+- Configurações da rodada movidas para a aba Configurações.
+- Opções de tempo: 3, 6, 9, 12, 20, 30, 45 e 60 segundos.
+- Botão para liberar todas as fases com um clique.
+- Estrutura limpa, sem arquivos antigos desnecessários.
+
+COMO PUBLICAR
+1. No GitHub, apague os arquivos antigos do repositório.
+2. Envie apenas os 6 arquivos listados acima.
+3. Faça commit na branch main.
+4. Aguarde o GitHub Pages finalizar o deploy.
+5. Teste com o link:
+   https://jaimeleite2012-sketch.github.io/concurso-biblico-oanse/?v=29
+
+OBSERVAÇÃO IMPORTANTE
+Este pacote usa o banco oficial já consolidado da V26 como base interna do jogo e aplica as correções da V29 na abertura da página. Isso evita manter dezenas de arquivos antigos no repositório e reduz o risco de conflito no GitHub Pages.

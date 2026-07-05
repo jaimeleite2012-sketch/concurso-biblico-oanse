@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#06101f">
+<meta name="description" content="Concurso Bíblico Oanse Cordeiro: jogo bíblico OANSE por fases, ranking, recompensas e progresso.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Concurso Bíblico Oanse Cordeiro">
+<meta property="og:title" content="Concurso Bíblico Oanse Cordeiro">
+<meta property="og:description" content="Jogo bíblico OANSE por fases: perguntas, ranking, recompensas e progresso.">
+<meta property="og:url" content="https://jaimeleite2012-sketch.github.io/concurso-biblico-oanse/">
+<meta property="og:image" content="https://jaimeleite2012-sketch.github.io/concurso-biblico-oanse/share-card-v29.png?v=29">
+<meta property="og:image:secure_url" content="https://jaimeleite2012-sketch.github.io/concurso-biblico-oanse/share-card-v29.png?v=29">
+<meta property="og:image:url" content="https://jaimeleite2012-sketch.github.io/concurso-biblico-oanse/share-card-v29.png?v=29">
+<meta property="og:image:alt" content="Concurso Bíblico Oanse Cordeiro">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Concurso Bíblico Oanse Cordeiro">
+<meta name="twitter:description" content="Jogo bíblico OANSE por fases: perguntas, ranking, recompensas e progresso.">
+<meta name="twitter:image" content="https://jaimeleite2012-sketch.github.io/concurso-biblico-oanse/share-card-v29.png?v=29">
+<link rel="manifest" href="manifest.webmanifest?v=29">
+<link rel="icon" href="icon.png?v=29">
+<link rel="apple-touch-icon" href="icon.png?v=29">
+<title>Concurso Bíblico Oanse Cordeiro V29</title>
+<style>
+:root{color-scheme:dark;--bg:#06101f;--card:#0e1d35;--gold:#f7c948;--txt:#f8fafc;--mut:#a8b3c7;--line:rgba(255,255,255,.13)}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at top,#17365f 0,#06101f 42%,#020617 100%);color:var(--txt);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;display:grid;place-items:center;padding:20px}.loader{max-width:620px;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:24px;text-align:center;box-shadow:0 18px 45px rgba(0,0,0,.38)}.loader img{width:76px;height:76px;object-fit:contain;margin-bottom:10px}.loader h1{margin:0 0 8px;font-size:28px}.loader p{color:var(--mut);line-height:1.45}.bar{height:10px;background:#08162b;border-radius:999px;overflow:hidden;margin-top:18px}.bar span{display:block;height:100%;width:45%;background:var(--gold);border-radius:999px;animation:load 1.2s infinite alternate}.error{border-color:#ef4444;background:#1f1010}@keyframes load{to{width:100%}}
+</style>
+</head>
+<body>
+<div class="loader" id="loaderBox">
+  <img src="logo.png?v=29" alt="Logo OANSE Cordeiro">
+  <h1>Concurso Bíblico Oanse Cordeiro</h1>
+  <p>Carregando V29 limpa: capa correta, logo correto, ícone correto, configurações organizadas e liberação rápida das fases.</p>
+  <div class="bar"><span></span></div>
+</div>
+<script>
+(function(){
+  'use strict';
+  const OWNER='jaimeleite2012-sketch';
+  const REPO='concurso-biblico-oanse';
+  const ORIGINAL_BLOB='ed2833e418ad1cf3b6c6aa3adec6e7d8b134e77a';
+  const API='https://api.github.com/repos/'+OWNER+'/'+REPO+'/git/blobs/'+ORIGINAL_BLOB;
+  function decodeBase64Utf8(b64){
+    const clean=String(b64||'').replace(/\s/g,'');
+    const bin=atob(clean);
+    const bytes=new Uint8Array(bin.length);
+    for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+    return new TextDecoder('utf-8').decode(bytes);
+  }
+  function fail(msg){
+    const box=document.getElementById('loaderBox');
+    if(box){box.className='loader error';box.innerHTML='<h1>Falha ao carregar</h1><p>'+String(msg).replace(/[<>&]/g,'')+'</p><p>Atualize a página. Se continuar, confira se os arquivos foram publicados na raiz do GitHub.</p>';}
+  }
+  const patchScript = `<script>
+(function(){
+  const MAX_PHASES=23;
+  const MAX_KIDS_PHASES=5;
+  const PROGRESS_KEY='oansec_v11_progress';
+  const SESSION_KEY='oansec_v11_session';
+  function byId(id){return document.getElementById(id)}
+  function toast(msg){
+    let d=document.createElement('div');
+    d.className='toast';
+    d.textContent=msg;
+    document.body.appendChild(d);
+    setTimeout(function(){d.remove()},2200);
+  }
+  function goTab(tab){
+    document.querySelectorAll('.tabBtn').forEach(function(b){b.classList.toggle('active',b.dataset.tab===tab)});
+    document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('active',t.id==='tab-'+tab)});
+    try{if(tab==='progress'&&typeof renderProgress==='function')renderProgress();if(tab==='rewards'&&typeof renderMedals==='function')renderMedals();if(tab==='rank'&&typeof renderRanking==='function')renderRanking();}catch(e){}
+  }
+  function ensureMeta(){
+    const pairs={
+      'og:title':'Concurso Bíblico Oanse Cordeiro',
+      'og:description':'Jogo bíblico OANSE por fases: perguntas, ranking, recompensas e progresso.',
+      'og:image':'https://jaimeleite2012-sketch.github.io/concurso-biblico-oanse/share-card-v29.png?v=29',
+      'og:image:secure_url':'https://jaimeleite2012-sketch.github.io/concurso-biblico-oanse/share-card-v29.png?v=29',
+      'og:image:url':'https://jaimeleite2012-sketch.github.io/concurso-biblico-oanse/share-card-v29.png?v=29',
+      'twitter:title':'Concurso Bíblico Oanse Cordeiro',
+      'twitter:description':'Jogo bíblico OANSE por fases: perguntas, ranking, recompensas e progresso.',
+      'twitter:image':'https://jaimeleite2012-sketch.github.io/concurso-biblico-oanse/share-card-v29.png?v=29'
+    };
+    Object.keys(pairs).forEach(function(k){
+      let m=document.querySelector('meta[property="'+k+'"],meta[name="'+k+'"]');
+      if(m)m.setAttribute('content',pairs[k]);
+    });
+    let icon=document.querySelector('link[rel="icon"]');if(icon)icon.href='icon.png?v=29';
+    let apple=document.querySelector('link[rel="apple-touch-icon"]');if(apple)apple.href='icon.png?v=29';
+    let manifest=document.querySelector('link[rel="manifest"]');if(manifest)manifest.href='manifest.webmanifest?v=29';
+    document.title='Concurso Bíblico Oanse Cordeiro V29';
+  }
+  function ensureStyle(){
+    if(byId('v29LayoutStyle'))return;
+    const s=document.createElement('style');
+    s.id='v29LayoutStyle';
+    s.textContent='.hero .logo{background:#000!important;border-radius:14px!important;padding:0!important;object-fit:contain!important;filter:drop-shadow(0 12px 20px rgba(0,0,0,.45))!important}.v29QuickConfig{width:100%;margin:10px 0 4px}.v29SettingsBlock{margin-top:14px;border-top:1px solid rgba(255,255,255,.13);padding-top:12px}.v29SettingsBlock h3{margin:0 0 4px;color:#fde68a}.v29UnlockBox{margin-top:12px;padding:12px;border:1px dashed rgba(250,204,21,.45);border-radius:16px;background:rgba(250,204,21,.08)}.v29UnlockBox p{margin:6px 0 0;color:#a8b3c7;font-size:13px;line-height:1.4}.v29PlayNote{margin-top:10px;padding:10px;border-radius:15px;background:rgba(45,212,191,.08);border:1px solid rgba(45,212,191,.18);color:#dbeafe;font-size:13px;line-height:1.35}body.kids-mode .v29PlayNote,body.kids-mode .v29UnlockBox p{color:#0b2a5b!important}';
+    document.head.appendChild(s);
+  }
+  function updateHeroLogo(){
+    const img=document.querySelector('.hero .logo');
+    if(!img)return;
+    img.src='logo.png?v=29';
+    img.alt='Logo OANSE Cordeiro';
+  }
+  function ensureTimerOptions(){
+    const sel=byId('timerSeconds');
+    if(!sel)return;
+    const current=sel.value||'20';
+    const options=[3,6,9,12,20,30,45,60];
+    sel.innerHTML=options.map(function(v){return '<option value="'+v+'">'+v+' seg</option>'}).join('');
+    sel.value=options.map(String).includes(String(current))?String(current):'20';
+  }
+  function unlockAllPhases(){
+    let data={};
+    try{data=JSON.parse(localStorage.getItem(PROGRESS_KEY)||'{}')||{}}catch(e){data={}}
+    data.unlocked=MAX_PHASES;
+    data.kidsUnlocked=MAX_KIDS_PHASES;
+    data.phaseBest=data.phaseBest||{};
+    data.kidsPhaseBest=data.kidsPhaseBest||{};
+    data.medals=data.medals||{};
+    data.attempts=data.attempts||0;
+    localStorage.setItem(PROGRESS_KEY,JSON.stringify(data));
+    localStorage.removeItem(SESSION_KEY);
+    toast('Todas as fases disponíveis foram liberadas neste aparelho.');
+    setTimeout(function(){location.reload()},750);
+  }
+  function moveRoundSettings(){
+    ensureStyle();
+    ensureTimerOptions();
+    const playCard=document.querySelector('#tab-play .card');
+    const settingsCard=document.querySelector('#tab-settings .card');
+    if(!playCard||!settingsCard)return;
+    if(!byId('openRoundSettings')){
+      const btn=document.createElement('button');
+      btn.id='openRoundSettings';
+      btn.className='btn secondary v29QuickConfig';
+      btn.textContent='Configurações da rodada';
+      btn.onclick=function(){goTab('settings')};
+      const pills=playCard.querySelector('.pillrow');
+      if(pills)pills.insertAdjacentElement('afterend',btn);
+      const note=document.createElement('div');
+      note.id='v29PlayNote';
+      note.className='v29PlayNote';
+      note.textContent='Tela inicial simplificada: escolha Jogar para iniciar. Fase, tempo, modo, clube, nível e grupos agora ficam na aba Configurações.';
+      btn.insertAdjacentElement('afterend',note);
+    }
+    let block=byId('roundSettingsBlock');
+    if(!block){
+      block=document.createElement('div');
+      block.id='roundSettingsBlock';
+      block.className='v29SettingsBlock';
+      block.innerHTML='<h3>Configuração da rodada</h3><div class="fieldHelp">Ajuste aqui fase, tempo, modo, clube, nível, trilha visual e grupos antes de iniciar.</div>';
+      const audioRow=byId('audioOpt')?byId('audioOpt').closest('.row'):null;
+      settingsCard.insertBefore(block,audioRow||settingsCard.children[1]||null);
+    }
+    const ids=['phase','timerSeconds','gameType','mode','questionScope','clubSelect','manualConfigRow','level','visualTheme','teamCount','teamNames','status'];
+    const moved=[];
+    ids.forEach(function(id){
+      const el=byId(id);
+      if(!el)return;
+      const container=el.closest('.row')||el;
+      if(moved.indexOf(container)===-1){moved.push(container)}
+    });
+    moved.forEach(function(node){block.appendChild(node)});
+    if(!byId('unlockAllPhases')){
+      const box=document.createElement('div');
+      box.className='v29UnlockBox';
+      box.innerHTML='<button class="btn primary" id="unlockAllPhases" style="width:100%">Liberar todas as fases</button><p>Um clique libera todas as fases disponíveis neste aparelho. A qualquer momento você pode usar “Zerar progresso” para voltar ao início.</p>';
+      block.appendChild(box);
+    }
+    const unlockBtn=byId('unlockAllPhases');
+    if(unlockBtn)unlockBtn.onclick=unlockAllPhases;
+  }
+  function install(){
+    try{ensureMeta();updateHeroLogo();moveRoundSettings();}catch(e){console.warn('Patch V29 não aplicado completamente',e)}
+  }
+  window.addEventListener('load',function(){install();setTimeout(install,150);setTimeout(install,700);});
+})();
+<\/script>`;
+  fetch(API,{cache:'no-store'})
+    .then(function(res){if(!res.ok)throw new Error('GitHub API '+res.status);return res.json();})
+    .then(function(json){
+      let html=decodeBase64Utf8(json.content);
+      html=html.replace(/Concurso Bíblico Oanse Cordeiro V26/g,'Concurso Bíblico Oanse Cordeiro V29');
+      html=html.replace(/V26 OANSE · Banco Revisado V26/g,'V29 OANSE · Publicação limpa');
+      html=html.replace('</body>',patchScript+'\n</body>');
+      document.open();document.write(html);document.close();
+    })
+    .catch(function(err){fail(err.message||err);});
+})();
+</script>
+</body>
+</html>
