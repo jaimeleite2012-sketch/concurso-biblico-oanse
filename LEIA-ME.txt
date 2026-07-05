@@ -1,0 +1,15 @@
+PACOTE V28.1 — LOGO E ÍCONE CORRIGIDOS
+
+Arquivos para publicar na raiz do repositório:
+- index.html
+- logo.png
+- icon.png
+- share-card-v28.png
+
+O que foi corrigido:
+1. Mantida a capa correta do WhatsApp (share-card-v28.png).
+2. Substituídos o logo e o ícone pelo arquivo correto enviado pelo usuário.
+3. Atualizado o cache-busting para v=28.1 no logo e no ícone.
+
+Após publicar, teste pelo link:
+https://jaimeleite2012-sketch.github.io/concurso-biblico-oanse/?v=28.1
